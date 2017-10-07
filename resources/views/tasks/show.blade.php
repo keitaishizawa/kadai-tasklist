@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th>{{ config('const.th')['id'] }}</th>
+                <th>{{ config('const.th')['status'] }}</th>
                 <th>{{ config('const.th')['task'] }}</th>
                 <th>{{ config('const.th')['created_at'] }}</th>
                 <th>{{ config('const.th')['updated_at'] }}</th>
@@ -17,6 +18,7 @@
 @if ($task)
             <tr>
                 <td>{{ $task->id }}</td>
+                <td>{{ $task->status }}</td>
                 <td>{{ $task->content }}</td>
                 <td>{{ $task->created_at }}</td>
                 <td>{{ $task->updated_at }}</td>
