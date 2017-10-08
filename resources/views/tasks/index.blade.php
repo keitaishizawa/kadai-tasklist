@@ -4,7 +4,7 @@
 
     <h1>{{ config('const.h1')['index'] }}</h1>
 
-    <table border="1" align="center">
+    <table class="table table-striped table-hover table-condensed">
         <thead>
             <tr>
                 <th>{{ config('const.th')['id'] }}</th>
@@ -28,5 +28,5 @@
 @endif
         </tbody>
     </table>
-    {!! link_to_route('tasks.create', config('const.index_go_createpage')) !!}
+    {!! link_to_route('tasks.create', config('const.index_go_createpage'), null , ['class' => 'btn btn-primary']) !!}
 @endsection

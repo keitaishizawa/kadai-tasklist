@@ -4,7 +4,7 @@
 
     <h1>{{ config('const.h1_parts')['id'] . $task->id . config('const.h1')['show'] }}</h1>
     
-    <table border="1" align="center">
+    <table class="table table-striped table-hover table-condensed">
         <thead>
             <tr>
                 <th>{{ config('const.th')['id'] }}</th>
@@ -26,8 +26,8 @@
 @endif
         </tbody>
     </table>
-    {!! link_to_route('tasks.edit', config('const.show_go_editpage'), ['id' => $task->id]) !!}
+    {!! link_to_route('tasks.edit', config('const.show_go_editpage'), ['id' => $task->id], ['class' => 'btn btn-default']) !!}
     {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
-        {!! Form::submit(config('const.delete_submit')) !!}
+        {!! Form::submit(config('const.delete_submit'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 @endsection
