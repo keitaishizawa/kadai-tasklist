@@ -4,6 +4,10 @@
 
     <h1>{{ config('const.h1')['index'] }}</h1>
 
+    <!-- 非ログイン時 -->
+    {!! link_to_route('signup.get', '会員登録', null, ['class' => 'btn btn-lg btn-primary']) !!}
+
+    <!-- ログイン時 -->
     <table class="table table-striped table-hover table-condensed">
         <thead>
             <tr>

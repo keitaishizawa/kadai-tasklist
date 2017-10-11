@@ -11,6 +11,11 @@
 |
 */
 
+// トップ画面
 Route::get('/', 'TasksController@index');
+
+// ユーザ登録
+Route::get('sidnup', 'Auth\AuthController@getRegister')->name('signup.get');
+Route::post('sidnup', 'Auth\AuthController@postRegister')->name('signup.post');
 
 Route::resource('tasks', 'TasksController');

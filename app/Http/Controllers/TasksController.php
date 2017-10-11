@@ -19,7 +19,7 @@ class TasksController extends Controller
     {
         $title = config('const.title')['index'];
         $tasks = Task::all();
-        $header_create_link_flg = true;
+        $header_create_link_flg = false;
         
         return view('tasks.index',[
             'title' => $title,
@@ -37,7 +37,7 @@ class TasksController extends Controller
     {
         $title = config('const.title')['create'];
         $task = new Task;
-        $header_create_link_flg = false;
+        $header_create_link_flg = true;
         
         return view('tasks.create',[
             'title' => $title,
@@ -77,7 +77,7 @@ class TasksController extends Controller
     {
         $title = config('const.title_parts')['id'] . $id . config('const.title')['show'];
         $task = Task::find($id);
-        $header_create_link_flg = true;
+        $header_create_link_flg = false;
 
         return view('tasks.show',[
             'title' => $title,
@@ -96,7 +96,7 @@ class TasksController extends Controller
     {
         $title = config('const.title_parts')['id'] . $id . config('const.title')['edit'];
         $task = Task::find($id);
-        $header_create_link_flg = true;
+        $header_create_link_flg = false;
 
         return view('tasks.edit',[
             'title' => $title,
