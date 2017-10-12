@@ -22,8 +22,6 @@ class TasksController extends Controller
             $user = \Auth::user();
             $data['user']  = $user;
             $data['tasks'] = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
-        }else{
-            return redirect('/login');
         }
         $data['title'] = config('const.title')['index'];
         $data['header_create_link_flg'] = false;
