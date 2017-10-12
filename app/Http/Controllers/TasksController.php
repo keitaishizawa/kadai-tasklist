@@ -17,15 +17,18 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $title = config('const.title')['index'];
-        $tasks = Task::all();
-        $header_create_link_flg = false;
+        $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $data['user']  = $user;
+            $data['tasks'] = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+        }else{
+            return redirect('/login');
+        }
+        $data['title'] = config('const.title')['index'];
+        $data['header_create_link_flg'] = false;
         
-        return view('tasks.index',[
-            'title' => $title,
-            'tasks' => $tasks,
-            'header_create_link_flg' => $header_create_link_flg,
-        ]);
+        return view('tasks.index', $data);
     }
 
     /**
@@ -59,10 +62,10 @@ class TasksController extends Controller
             'status'  => 'required|max:255',
         ]);
 
-        $task = new Task;
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+            'status'  => $request->status
+        ]);
         
         return redirect('/');
     }
@@ -135,8 +138,11 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::find($id);
-        $task->delete();
+        $task = \App\Task::find($id);
+        
+        if (\Auth::user()->id === $task->user_id) {
+            $task->delete();
+        }
         
         return redirect('/');
     }

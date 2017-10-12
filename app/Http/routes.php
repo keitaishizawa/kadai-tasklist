@@ -13,6 +13,7 @@
 
 // トップ画面
 Route::get('/', 'TasksController@index');
+Route::get('tasks', 'TasksController@index');
 
 // ユーザ登録
 Route::get('sidnup', 'Auth\AuthController@getRegister')->name('signup.get');
@@ -23,4 +24,7 @@ Route::get('login', 'Auth\AuthController@getLogin')->name('login.get');
 Route::post('login', 'Auth\AuthController@postLogin')->name('login.post');
 Route::get('logout', 'Auth\AuthController@getLogout')->name('logout.get');
 
-Route::resource('tasks', 'TasksController');
+// 上記以外の画面は全て非ログインの場合はログイン認証画面へリダイレクト
+Route::group(['middleware' => 'auth'], function(){
+  Route::resource('tasks', 'TasksController', ['only' => ['show', 'store', 'update', 'destroy', 'create', 'edit']]);  
+});
