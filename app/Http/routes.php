@@ -16,8 +16,8 @@ Route::get('/', 'TasksController@index');
 Route::get('tasks', 'TasksController@index');
 
 // ユーザ登録
-Route::get('sidnup', 'Auth\AuthController@getRegister')->name('signup.get');
-Route::post('sidnup', 'Auth\AuthController@postRegister')->name('signup.post');
+Route::get('signup', 'Auth\AuthController@getRegister')->name('signup.get');
+Route::post('signup', 'Auth\AuthController@postRegister')->name('signup.post');
 
 // ログイン認証
 Route::get('login', 'Auth\AuthController@getLogin')->name('login.get');

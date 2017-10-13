@@ -76,15 +76,18 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        $title = config('const.title_parts')['id'] . $id . config('const.title')['show'];
         $task = Task::find($id);
-        $header_create_link_flg = false;
-
-        return view('tasks.show',[
-            'title' => $title,
-            'task' => $task,
-            'header_create_link_flg' => $header_create_link_flg,
-        ]);
+        
+        if (\Auth::user()->id !== $task->user_id) {
+            return redirect('/');
+        }
+        
+        $data = [];
+        $data['task'] = $task;
+        $data['title'] = config('const.title_parts')['id'] . $id . config('const.title')['show'];
+        $data['header_create_link_flg'] = false;
+        
+        return view('tasks.show', $data);
     }
 
     /**
@@ -95,15 +98,18 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        $title = config('const.title_parts')['id'] . $id . config('const.title')['edit'];
         $task = Task::find($id);
-        $header_create_link_flg = false;
-
-        return view('tasks.edit',[
-            'title' => $title,
-            'task' => $task,
-            'header_create_link_flg' => $header_create_link_flg,
-        ]);
+        
+        if (\Auth::user()->id !== $task->user_id) {
+            return redirect('/');
+        }
+        
+        $data = [];
+        $data['task'] = $task;
+        $data['title'] = config('const.title_parts')['id'] . $id . config('const.title')['edit'];
+        $data['header_create_link_flg'] = false;
+        
+        return view('tasks.edit', $data);
     }
 
     /**
@@ -115,15 +121,19 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'content' => 'required|max:255',
-            'status'  => 'required|max:255',
-        ]);
-        
-        $task = Task::find($id);
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+        $task = \App\Task::find($id);
+
+        if (\Auth::user()->id === $task->user_id) {
+            $this->validate($request, [
+                'content' => 'required|max:255',
+                'status'  => 'required|max:255',
+            ]);
+
+            $request->user()->tasks()->create([
+                'content' => $request->content,
+                'status'  => $request->status
+            ]);
+        }
         
         return redirect('/');
     }
